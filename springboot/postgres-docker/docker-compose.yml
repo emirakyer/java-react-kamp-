@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  pg-database:
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: Northwind
+    volumes:
+      - "C:/Users/emir_/PycharmProjects/java-react-kampı2/springboot/postgres_data:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
+    networks:
+      - pg-network
+    hostname: pg-database
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "root"
+    volumes:
+      - "pgadmin_data:/var/lib/pgadmin"
+    ports:
+      - "8080:80"
+    networks:
+      - pg-network
+
+ # Spring Boot service
+  spring-app:
+    image: your-spring-boot-image
+    depends_on:
+      - pg-database
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://pg-database:5432/Northwind
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    ports:
+      - "8080:8080"
+    networks:
+      - pg-network
+
+networks:
+  pg-network:
+    driver: bridge
+
+volumes:
+  pgadmin_data: {}
