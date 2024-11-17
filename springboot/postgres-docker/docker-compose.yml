@@ -23,7 +23,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
       PGADMIN_DEFAULT_PASSWORD: "root"
     volumes:
-      - "pgadmin_data:/var/lib/pgadmin"
+      - "C:/Users/emir_/PycharmProjects/java-react-kampı2/springboot/postgres_data:/var/lib/postgresql/data"
     ports:
       - "8080:80"
     networks:
